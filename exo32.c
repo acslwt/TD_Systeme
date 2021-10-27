@@ -11,23 +11,24 @@ Le code de retour du fork() est le pid du fils dans le père*/
 #include <fcntl.h>
 #include <unistd.h>
 
-int main(int argc, char* argv[]){
+int main(void){
 
-    int child_process = fork();
     int resultat = 0;
-    int file = open("test.txt",O_RDONLY);
-    int b;
+    int file = open("test.txt",O_WRONLY);
+    int child_process = fork();
 
     if(child_process==0){
 
+        int resultat_child = 4;
         resultat = 2;
-        read(file,&b,sizeof(char));
-        printf("Je suis le printf du child, mon resultat est : %i ici file vaut %c",resultat,b);
+        write(file,"Fils",sizeof(char)*4);
+        printf("Je suis le printf du child, mon resultat est : %i son add est : %p\n",resultat,&resultat);
 
     }else{
 
-        read(file,&b,sizeof(char));
-        printf("Je suis le printf du parent, mon resultat est : %i ici file vaut %c",resultat,b);
+        int resultat_fath = 5;
+        write(file,"Pere",sizeof(char)*4);
+        printf("Je suis le printf du fath, mon resultat est : %i son add est : %p\n",resultat,&resultat);
 
     }
 
